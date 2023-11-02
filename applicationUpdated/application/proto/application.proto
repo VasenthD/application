@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package Application;
+
+option go_package="github.com/BaLa071";
+
+
+service ApplicationService{
+    rpc Create(CreateRequest)returns(CreateResponse);
+    rpc List(ListRequest)returns(ListResponse);
+    rpc ListAll(empty)returns(ListAllResponse);
+    rpc PutFile(stream PutFileReq) returns (PutFileResp);
+    rpc GetFile(GetFileReq) returns (stream GetFileResp);
+}
+
+message CreateRequest {
+    string Name=1;
+    string ChannelId=2;
+    string CreatedBy=3;
+}
+
+message CreateResponse {
+    string ChannelId=1;
+}
+
+
+message ListRequest {
+    string Id=1;
+}
+
+message ListResponse {
+    string Id=1;
+    string Name=2;
+    string ChannelId=3;
+    string CreatedBy=4;
+    string CreatedAt=5;
+    string UpdatedAt=6;
+}
+
+message empty {
+}
+
+message ListAllResponse {
+    repeated ListResponse ListAll=1;
+}
+
+message PutFileReq{
+    string AppID = 1;
+    string FoldID = 2;
+    string FileName = 3;
+    bytes Chunk = 4;
+    int32 RequiredSize =5;
+    int32 StreamedSize =6;
+}
+
+message PutFileResp{
+    string Message = 1; 
+}
+
+message GetFileReq{
+    string AppID = 1;
+    string FoldID = 2;
+    string FileName = 3; 
+}
+
+message GetFileResp{
+    string Message = 1;
+    bytes Chunk = 2;
+}
